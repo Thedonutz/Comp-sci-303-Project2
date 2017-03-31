@@ -1,3 +1,1 @@
-﻿  Source.cpp
-c:\users\quick\documents\github\comp-sci-303-project2\source code\source.cpp(11): warning C4930: 'LibraryTree<Book> bookTree(void)': prototyped function not called (was a variable definition intended?)
-  LibraryTree.vcxproj -> C:\Users\quick\Documents\GitHub\Comp-sci-303-Project2\Source Code\Debug\LibraryTree.exe
+﻿

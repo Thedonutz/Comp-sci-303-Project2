@@ -15,19 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TreeNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Book.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LibraryTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rating.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Customer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Desktop\303-Data\Binary_Trees_Binary_Search_Trees\Binary_Tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Desktop\303-Data\Binary_Trees_Binary_Search_Trees\Binary_Search_Tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Desktop\303-Data\Binary_Trees_Binary_Search_Trees\BTNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

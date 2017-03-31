@@ -1,21 +1,25 @@
 #pragma once
-#include "LibraryTree.h"
+#include "BRTree.h"
+#include "Node.h"
+#include "Rating.h"
+#include <map>
 using namespace std;
 
 
-struct Book
+class Book
 {
 	private:
 		
 		int ISBN;
 		string Title;
+		int customerID;
 		int theRating;
-		LibraryTree<TreeNode<rating>> RatingTree();	
+		map<int, int> ratingMap;	
 
 	public:
 		void setISBN(int theISBN);
 		void setTitle(string theTitle);
-		void setRating(int theRating);
+		void setRating(int custID, int theRating);
 		int getISBN();
 		int getTheRating();
 		string getTitle();

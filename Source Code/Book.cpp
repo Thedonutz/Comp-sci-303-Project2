@@ -9,9 +9,9 @@ void Book::setTitle(string theTitle)
 {
 	this->Title = theTitle;
 }
-void Book::setRating(int theRating)
+void Book::setRating( int custID, int theRating)
 {
-	this->theRating = theRating; //place holder
+	ratingMap.insert (pair<int,int>(custID,theRating)); //place holder
 }
 int Book::getISBN()
 {

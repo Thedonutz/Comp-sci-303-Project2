@@ -1,4 +1,5 @@
 #include "Customer.h"
+#include "BRTree.h"
 
 void Customer::setName(string theName)
 {
@@ -20,10 +21,10 @@ int Customer::getId()              // returns id of customer
 	return this->id;
 
 }
-Book& findBook(int IBSN)
+Book& Customer::findBook(int IBSN)
 {
-
-	
+	static Book book;
+	return book;
 }
 
 void Customer::rateBook(int IBSN, int theRating)
@@ -31,16 +32,16 @@ void Customer::rateBook(int IBSN, int theRating)
 	Book hold = findBook(IBSN);
 	if (hold.getTheRating() < 1)
 	{
-		hold.setRating(theRating);
+		hold.setRating(id , theRating);
 	}
 	else if (hold.getTheRating() > 1)
 	{
-		cout << "Would you like to cahnge the rating of this book? Y or N " << endl;
+		cout << "Would you like to change the rating of this book? Y or N " << endl;
 		char answer;
 		cin >> answer;
 		if (answer == 'Y')
 		{
-			hold.setRating(theRating);
+			hold.setRating(id, theRating);
 		}
 		else if (answer == 'N')
 		{
@@ -48,4 +49,13 @@ void Customer::rateBook(int IBSN, int theRating)
 		}
 	}
 }
+list<Book> Customer::RecommendBooks(BRTree<Book>& root, list<Customer>& customers, list<Book> recommended)
+{
+	recommended = {};
+	for (list<Customer>::iterator it = customers.begin(); it != customers.end(); it++)
+	{
+		//TODO
+	}
+	return recommended;
 
+}

@@ -64,11 +64,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Desktop\303-Data\Binary_Trees_Binary_Search_Trees\Binary_Search_Tree.h" />
+    <ClInclude Include="..\..\..\..\Desktop\303-Data\Binary_Trees_Binary_Search_Trees\Binary_Tree.h" />
+    <ClInclude Include="..\..\..\..\Desktop\303-Data\Binary_Trees_Binary_Search_Trees\BTNode.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Rating.h" />
-    <ClInclude Include="LibraryTree.h" />
     <ClInclude Include="Book.h" />
-    <ClInclude Include="TreeNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Book.cpp" />
