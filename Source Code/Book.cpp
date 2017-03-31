@@ -3,11 +3,11 @@
 
 void Book::setISBN(int theISBN)
 {
-	this->ISBN = theISBN;
+	ISBN = theISBN;
 }
 void Book::setTitle(string theTitle)
 {
-	this->Title = theTitle;
+	Title = theTitle;
 }
 void Book::setRating( int custID, int theRating)
 {
@@ -15,13 +15,13 @@ void Book::setRating( int custID, int theRating)
 }
 int Book::getISBN()
 {
-	return this->ISBN;
+	return  ISBN;
 }
 int Book::getTheRating()
 {
-	return this->theRating; // again, place holder
+	return theRating; // again, place holder
 }
 string Book::getTitle()
 {
-	return this->Title;
+	return Title;
 }

@@ -1,4 +1,5 @@
  #include "Binary_Search_Tree.h"
+ #include "BTNode.h"
  #include "Book.h"
  #include "Rating.h"
  #include <list>
@@ -114,7 +115,7 @@ namespace LoadData
 
 int main()
 {
-			BRTree<Book> bookTree; // NOT used meanwhile.
+			Binary_Search_Tree<Book> bookTree; // NOT used meanwhile.
 		
 			//freopen("output.txt", "w", stdout); // Redirect the console output to a file.
 		
@@ -148,6 +149,7 @@ int main()
 					bookMAP[ISBN_num] = LoadData::books.size();
 
 					LoadData::books.push_back(book);
+					
 				}
 
 				file.close();
@@ -171,7 +173,7 @@ int main()
 					const size_t bookIdx = bookMAP[ISBN_num];
 
 					LoadData::books[bookIdx].setRating(customer, bookRate);
-
+					//Vector to Tree from here
 				}
 
 

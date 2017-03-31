@@ -1,5 +1,4 @@
 #include "Customer.h"
-#include "BRTree.h"
 
 void Customer::setName(string theName)
 {
@@ -49,7 +48,7 @@ void Customer::rateBook(int IBSN, int theRating)
 		}
 	}
 }
-list<Book> Customer::RecommendBooks(BRTree<Book>& root, list<Customer>& customers, list<Book> recommended)
+list<Book> Customer::RecommendBooks(Binary_Search_Tree<Book>& root, list<Customer>& customers, list<Book> recommended)
 {
 	recommended = {};
 	for (list<Customer>::iterator it = customers.begin(); it != customers.end(); it++)

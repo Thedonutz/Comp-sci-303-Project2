@@ -1,6 +1,6 @@
 #pragma once
 #include "Book.h"
-#include "BRTree.h"
+#include "Binary_Search_Tree.h"
 #include "Rating.h"
 #include <string>
 #include <list>
@@ -19,7 +19,7 @@ public:
 
 	void rateBook(int IBSN, int rating);
 	Book& findBook(int IBSN);
-	list<Book> RecommendBooks(BRTree<Book>& root, list<Customer>& customers, list<Book> recommended);
+	list<Book> RecommendBooks(Binary_Search_Tree<Book>& root, list<Customer>& customers, list<Book> recommended);
 
 private:
 

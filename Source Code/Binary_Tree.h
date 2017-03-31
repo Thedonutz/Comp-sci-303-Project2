@@ -7,9 +7,11 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <iostream>
 #include <algorithm>
 #include "BTNode.h"
 #include <vector>
+using namespace std;
 
 template<typename Item_Type>
 class Binary_Tree
@@ -62,7 +64,7 @@ public:
 	bool is_leaf() const;
 
 	/** Return a string representation of this tree. */
-	virtual std::string to_string() const;
+	/*virtual std::string to_string() const;*/
 
 	/** Read a binary tree */
 	static Binary_Tree<Item_Type> read_binary_tree(std::istream& in);
@@ -72,9 +74,9 @@ public:
 	Binary_Tree<Item_Type> read_binary_tree(std::vector<std::string>& text, int& i);
 
 	/** Return a string representation of the root */
-	std::string root_to_string() const {
-		return root->to_string();
-	}
+	//std::string root_to_string() const {
+	//	return root->to_string();
+	/*}*/
 
 
 	/** Return a pre-order traversal of the tree */
@@ -137,12 +139,12 @@ private:
 };  // End Binary_Tree
 
 
-/*template<typename Item_Type>
+template<typename Item_Type>
 bool Binary_Tree<Item_Type>::isBinarySearch(){
 	bool result=true;
 	isBinarySearch(this->root,result);
 	return result;
-}*/
+}
 
 template<typename Item_Type>
 void Binary_Tree<Item_Type>::setRoot(BTNode<Item_Type>* new_root){
@@ -224,18 +226,18 @@ bool Binary_Tree<Item_Type>::is_leaf() const {
 }
 
 /** Return a string representation of this tree */
-template<typename Item_Type>
-std::string Binary_Tree<Item_Type>::to_string() const {
-	std::ostringstream os;
-	if (is_null())
-		os << "NULL\n";
-	else {
-		os << *root << '\n';
-		os << get_left_subtree().to_string();
-		os << get_right_subtree().to_string();
-	}
-	return os.str();
-}
+//template<typename Item_Type>
+//std::string Binary_Tree<Item_Type>::to_string() const {
+//	std::ostringstream os;
+//	if (is_null())
+//		os << "NULL\n";
+//	else {
+//		os << *root << '\n';
+//		os << get_left_subtree().to_string();
+//		os << get_right_subtree().to_string();
+//	}
+//	return os.str();
+//}
 
 /*string_tokenizer st(line, "+ ");
 while (st.has_more_tokens()) {
