@@ -98,7 +98,7 @@ namespace LoadData
 		{
 		printf("BOOKS INFO:\n");
 		for (auto &book : books)
-			 {
+			{
 			printf("Title: %70s | ISBN: %9d | Rate: %2d\n", book.getTitle().c_str(), book.getISBN(), book.getTheRating());
 			}
 		
@@ -195,11 +195,18 @@ int main()
 					LoadData::customers.push_back(customer);
 				}
 			}
-		
+			//Transfer Data from Murad's Code into scope that's easy to manage;
+			vector<Customer> customers = LoadData::customers;
+			vector< Book > books = LoadData::books;
+			//Loaded Books Along with Rating into Tree ordered.
+			for (auto &bookList : books)
+			{
+				bookTree.insert(bookList);
+			}
 			
 	
 			LoadData::debug() ; // Print the data loaded.
-		
+			
 			// Give the Welcome message, then ask the user to log in.
 			while (true)
 			{
@@ -250,3 +257,4 @@ int main()
 		}	
 		return 0;
 		}
+

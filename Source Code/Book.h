@@ -20,6 +20,8 @@ class Book
 		void setRating(int custID, int theRating);
 		int getISBN();
 		int getTheRating();
+		map<int, int> getRatingMap();
 		string getTitle();
+		void mapPrint(const map<int, int>& map);
 
 };
