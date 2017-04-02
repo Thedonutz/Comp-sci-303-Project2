@@ -1,6 +1,7 @@
 #pragma once
 #include "Rating.h"
 #include <map>
+#include <iostream>
 using namespace std;
 
 
@@ -20,6 +21,7 @@ class Book
 		void setRating(int custID, int theRating);
 		int getISBN();
 		int getTheRating();
+
 		map<int, int> getRatingMap();
 		string getTitle();
 		void mapPrint(const map<int, int>& map);

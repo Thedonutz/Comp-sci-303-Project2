@@ -16,8 +16,6 @@ public:
 	// Public Member Functions
 	virtual bool insert(Book& item);
 
-	/*virtual bool erase(const Item_Type& item);*/
-
 	const Item_Type* min() const;
 
 	const Item_Type* min(BTNode<Item_Type>* local_root) const;
@@ -26,22 +24,15 @@ public:
 
 	const Item_Type* max(BTNode<Item_Type>* local_root) const;
 
-	const Item_Type* find(const Item_Type& target) const;
+	Item_Type find(int& target);
 private:
 
 	// Private Member Functions
 	virtual bool insert(BTNode<Book>*& local_root,
 		Book& item);
 
-	/*virtual bool erase(BTNode<Item_Type>*& local_root,
-		const Item_Type& item);*/
-
-	const Item_Type* find(BTNode<Item_Type>* local_root,
-		const Item_Type& target) const;
-
-	virtual void replace_parent(
-		BTNode<Item_Type>*& old_root,
-		BTNode<Item_Type>*& local_root);
+	Item_Type find(BTNode<Item_Type>* local_root,
+		int& target);
 
 }; // End binary search tree
 
@@ -80,21 +71,25 @@ const Item_Type* Binary_Search_Tree<Item_Type>::max(BTNode<Item_Type>* local_roo
 
 
 template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::find(
-	const Item_Type& item) const {
+Item_Type Binary_Search_Tree<Item_Type>::find(int& item)
+{
 		return find(this->root, item);
 }
 
 template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::find(BTNode<Item_Type>* local_root, const Item_Type& target) const {
-		if (local_root == NULL)
-			return NULL;
-		if (target < local_root->data)
+Item_Type Binary_Search_Tree<Item_Type>::find(BTNode<Item_Type>* local_root, int& target)
+{
+		if (local_root == NULL) 
+		{
+			cout << " Book Does Not Exist In our Library " << endl << endl;
+			return Book();
+		}
+		if (target < local_root->data.getISBN())
 			return find(local_root->left, target);
-		else if (local_root->data < target)
+		else if (local_root->data.getISBN() < target)
 			return find(local_root->right, target);
 		else
-			return &(local_root->data);
+			return (local_root->data);
 }
 
 template<typename Item_Type>
@@ -103,66 +98,19 @@ bool Binary_Search_Tree<Item_Type>::insert(Book& item) {
 }
 
 template<typename Item_Type>
-bool Binary_Search_Tree<Item_Type>::insert(BTNode<Book>*& local_root,Book& item) {
-		if (local_root == NULL) {
-			local_root = new BTNode<Item_Type>(item);
-			return true;
-		}
-		else {
-			if (item.getISBN() < local_root->data.getISBN())
-				return insert(local_root->left, item);
-			else if (local_root->data.getISBN() < item.getISBN())
-				return insert(local_root->right, item);
-			else
-				return false;
-		}
+bool Binary_Search_Tree<Item_Type>::insert(BTNode<Book>*& local_root, Book& item) {
+	if (local_root == NULL) {
+		local_root = new BTNode<Item_Type>(item);
+		return true;
+	}
+	else {
+		if (item.getISBN() < local_root->data.getISBN())
+			return insert(local_root->left, item);
+		else if (local_root->data.getISBN() < item.getISBN())
+			return insert(local_root->right, item);
+		else
+			return false;
+	}
 }
-
-
-//template<typename Item_Type>
-//bool Binary_Search_Tree<Item_Type>::erase(const Item_Type& item) {
-//		return erase(this->root, item);
-//}
-
-//template<typename Item_Type>
-//bool Binary_Search_Tree<Item_Type>::erase(BTNode<Item_Type>*& local_root, const Item_Type& item) {
-//	if (local_root == NULL) {
-//		return false;
-//	}
-//	else {
-//		if (item < local_root->data)
-//			return erase(local_root->left, item);
-//		else if (local_root->data < item)
-//			return erase(local_root->right, item);
-//		else {
-//			BTNode<Item_Type>* old_root = local_root;
-//			if (local_root->left == NULL) {
-//				local_root = local_root->right;
-//			}
-//			else if (local_root->right == NULL) {
-//				local_root = local_root->left;
-//			}
-//			else {
-//				replace_parent(old_root, old_root->left);
-//			}
-//			delete old_root;
-//			return true;
-//		}
-//	}
-//}
-
-template<typename Item_Type>
-void Binary_Search_Tree<Item_Type>::replace_parent(BTNode<Item_Type>*& old_root, BTNode<Item_Type>*& local_root) {
-		if (local_root->right != NULL) {
-			replace_parent(old_root, local_root->right);
-		}
-		else {
-			old_root->data = local_root->data;
-			old_root = local_root;
-			local_root = local_root->left;
-		}
-}
-
-
 
 #endif

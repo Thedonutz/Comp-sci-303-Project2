@@ -17,9 +17,9 @@ public:
 	string getName();
 	int getId();
 
-	void rateBook(int IBSN, int rating);
-	Book& findBook(int IBSN);
-	list<Book> RecommendBooks(Binary_Search_Tree<Book>& root, list<Customer>& customers, list<Book> recommended);
+	void rateBook(Binary_Search_Tree<Book>& BookTree, int IBSN, int theRating);
+
+	//list<Book> RecommendBooks(Binary_Search_Tree<Book>& root, list<Customer>& customers, list<Book> recommended);
 
 private:
 

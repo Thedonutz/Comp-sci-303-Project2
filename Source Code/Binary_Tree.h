@@ -225,24 +225,6 @@ bool Binary_Tree<Item_Type>::is_leaf() const {
 		return true;
 }
 
-/** Return a string representation of this tree */
-//template<typename Item_Type>
-//std::string Binary_Tree<Item_Type>::to_string() const {
-//	std::ostringstream os;
-//	if (is_null())
-//		os << "NULL\n";
-//	else {
-//		os << *root << '\n';
-//		os << get_left_subtree().to_string();
-//		os << get_right_subtree().to_string();
-//	}
-//	return os.str();
-//}
-
-/*string_tokenizer st(line, "+ ");
-while (st.has_more_tokens()) {
-	string term = st.next_token();*/
-
 template<typename Item_Type>
 void Binary_Tree<Item_Type>::read_tree(std::vector<std::string>& text) {
 		int i = 0;

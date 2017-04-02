@@ -20,15 +20,10 @@ int Customer::getId()              // returns id of customer
 	return this->id;
 
 }
-Book& Customer::findBook(int IBSN)
-{
-	static Book book;
-	return book;
-}
 
-void Customer::rateBook(int IBSN, int theRating)
+void Customer::rateBook(Binary_Search_Tree<Book>& BookTree, int IBSN, int theRating)
 {
-	Book hold = findBook(IBSN);
+	Book hold = BookTree.find(IBSN);
 	if (hold.getTheRating() < 1)
 	{
 		hold.setRating(id , theRating);
@@ -48,13 +43,14 @@ void Customer::rateBook(int IBSN, int theRating)
 		}
 	}
 }
-list<Book> Customer::RecommendBooks(Binary_Search_Tree<Book>& root, list<Customer>& customers, list<Book> recommended)
-{
-	recommended = {};
-	for (list<Customer>::iterator it = customers.begin(); it != customers.end(); it++)
-	{
-		//TODO
-	}
-	return recommended;
 
-}
+//list<Book> Customer::RecommendBooks(Binary_Search_Tree<Book>& root, list<Customer>& customers, list<Book> recommended)
+//{
+//	recommended = {};
+//	for (list<Customer>::iterator it = customers.begin(); it != customers.end(); it++)
+//	{
+//		//TODO
+//	}
+//	return recommended;
+//
+//}

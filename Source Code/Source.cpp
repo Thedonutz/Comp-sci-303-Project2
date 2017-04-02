@@ -115,7 +115,7 @@ namespace LoadData
 
 int main()
 {
-			Binary_Search_Tree<Book> bookTree; // NOT used meanwhile.
+			Binary_Search_Tree<Book> bookTree;
 		
 			//freopen("output.txt", "w", stdout); // Redirect the console output to a file.
 		
@@ -230,7 +230,8 @@ int main()
 		printf(Messages::Options, Users::getUsername(Users::Current).c_str());
 		
 			int option = static_cast< int >(UIOption::Invalid);
-		
+			int ISBN;
+			Book Temp;
 			RequestData("Your option is:", option);
 		
 			switch (static_cast< UIOption >(option))
@@ -239,7 +240,9 @@ int main()
 					keepOpen = false;
 					break;
 				case UIOption::FindBook:
-					printf("TODO Find Book\n");
+					printf("Enter ISBN of Book you are Looking For. \n");
+					cin >> ISBN;
+					Temp = bookTree.find(ISBN);
 					break;
 				case UIOption::RecommendBooks:
 					printf("TODO Recommend Books\n");
