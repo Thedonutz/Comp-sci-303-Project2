@@ -230,7 +230,8 @@ int main()
 		printf(Messages::Options, Users::getUsername(Users::Current).c_str());
 		
 			int option = static_cast< int >(UIOption::Invalid);
-			int ISBN;
+			int ISBN, custID, myRating;
+			char yesNo;
 			Book Temp;
 			RequestData("Your option is:", option);
 		
@@ -243,12 +244,40 @@ int main()
 					printf("Enter ISBN of Book you are Looking For. \n");
 					cin >> ISBN;
 					Temp = bookTree.find(ISBN);
+					if (Temp.getISBN() == 0)
+						break;
+					else
+					{
+						cout << " Would you like to rate this book? (y/n) " << endl;
+						cin >> yesNo;
+						switch (yesNo) 
+						{
+							case 'y':
+								cout << "::WARNING:: if you already have a Rating, you will add another! " << endl;
+								cout << " Enter your Customer ID to rate this Book " << endl;
+								cin >> custID;
+								cout << endl << "Please Enter the rating you wish to give between 1-5: ";
+								cin >> myRating;
+								customers[custID].rateBook(bookTree, ISBN, myRating);
+								break;
+							case 'n':
+								break;
+							default:
+								cout << "Sorry I didn't get that. " << endl;
+								break;
+						}
+					}
 					break;
 				case UIOption::RecommendBooks:
 					printf("TODO Recommend Books\n");
 					break;
 				case UIOption::SeeRatings:
-					printf("TODO See Ratings\n");
+					for (auto &bookRatings : books)
+					{
+						printf("Title: %70s | ", bookRatings.getTitle().c_str());
+						cout << endl;
+						bookRatings.mapPrint(bookRatings.getRatingMap());
+					}
 					break;
 				case UIOption::RateBook:
 					printf("TODO Rate Book\n");
