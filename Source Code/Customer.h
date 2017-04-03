@@ -16,13 +16,21 @@ public:
 
 	string getName();
 	int getId();
+	vector<Book> getBooks() { return bookList; }
+	vector<string> getTitles();
 
 	void rateBook(Binary_Search_Tree<Book>& BookTree, int IBSN, int theRating);
+	void booksRated(vector<Book> theBookList);
+	void convertList(vector<Book>& bookTitle);
 
-	//list<Book> RecommendBooks(Binary_Search_Tree<Book>& root, list<Customer>& customers, list<Book> recommended);
+protected:
+
+	vector<Book> bookList;
+	vector<string> listTitles;
 
 private:
 
+	
 	string name;
 	int id;
 

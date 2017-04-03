@@ -63,20 +63,12 @@ public:
 	/** Indicate that this tree is a leaf. */
 	bool is_leaf() const;
 
-	/** Return a string representation of this tree. */
-	/*virtual std::string to_string() const;*/
-
 	/** Read a binary tree */
 	static Binary_Tree<Item_Type> read_binary_tree(std::istream& in);
 
 	void read_tree(std::vector<std::string>& text);
 
 	Binary_Tree<Item_Type> read_binary_tree(std::vector<std::string>& text, int& i);
-
-	/** Return a string representation of the root */
-	//std::string root_to_string() const {
-	//	return root->to_string();
-	/*}*/
 
 
 	/** Return a pre-order traversal of the tree */

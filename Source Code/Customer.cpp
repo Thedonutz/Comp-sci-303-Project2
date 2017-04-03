@@ -1,4 +1,5 @@
 #include "Customer.h"
+#include <algorithm>
 
 void Customer::setName(string theName)
 {
@@ -43,14 +44,31 @@ void Customer::rateBook(Binary_Search_Tree<Book>& BookTree, int IBSN, int theRat
 		}
 	}
 }
+void Customer::booksRated(vector<Book> theBookList)
+{
+	for (vector<Book>::iterator it = theBookList.begin(); it != theBookList.end(); it++)
+	{
+		Book tempBook = *it;
+		map<int, int> tempRating = tempBook.getRatingMap();
+		for (std::map<int, int>::const_iterator itr = tempRating.begin(); itr != tempRating.end(); itr++)
+		{
+			if (itr->first == this->getId())
+			{
+				bookList.push_back(tempBook);
+			}
+		}	
+	}
+}
 
-//list<Book> Customer::RecommendBooks(Binary_Search_Tree<Book>& root, list<Customer>& customers, list<Book> recommended)
-//{
-//	recommended = {};
-//	for (list<Customer>::iterator it = customers.begin(); it != customers.end(); it++)
-//	{
-//		//TODO
-//	}
-//	return recommended;
-//
-//}
+void Customer::convertList(vector<Book>& bookTitle)
+{
+	for (vector<Book>::iterator itr = bookTitle.begin(); itr != bookTitle.end(); itr++)
+	{
+		listTitles.push_back(itr->getTitle());
+	}
+}
+vector<string> Customer::getTitles()
+{
+	convertList(bookList);
+	return listTitles;
+}

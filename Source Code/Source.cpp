@@ -9,10 +9,14 @@
  #include <array>
  #include <fstream>
  #include <unordered_map>
+#include <algorithm>
+#include <iterator>
 
 //using namespace std; // It is not a good practice.
 
 #define STRINGIFY(...) #__VA_ARGS__
+
+vector<string> RecommendBooks(vector<Customer>& customers, int& custID);
 
 namespace Messages
  {
@@ -104,7 +108,7 @@ namespace LoadData
 		
 			printf("CUSTOMERS INFO:\n");
 		for (auto &customer : customers)
-			 {
+			{
 			printf("Name: %20s | ID: %2d\n", customer.getName().c_str(), customer.getId());
 			}
 		
@@ -115,178 +119,263 @@ namespace LoadData
 
 int main()
 {
-			Binary_Search_Tree<Book> bookTree;
-		
-			//freopen("output.txt", "w", stdout); // Redirect the console output to a file.
-		
-			// Load the data 
-			// Create a scope too.
-			{
-				std::ifstream file("books.txt");
-				std::string line;
+	Binary_Search_Tree<Book> bookTree;
 
-				std::getline(file, line); // Skip the first line.
+	//freopen("output.txt", "w", stdout); // Redirect the console output to a file.
 
-					// With this implementation we can set faster the Rating.
-				std::unordered_map< int, size_t > bookMAP;
-				// Map the book id with it index in the vector.
+	// Load the data 
+	// Create a scope too.
+	{
+		std::ifstream file("books.txt");
+		std::string line;
 
-				while (std::getline(file, line))
-				{
-					const std::string ISBN = line.substr(0, 9);
-					const std::string name = line.substr(10, line.size() - 1);
+		std::getline(file, line); // Skip the first line.
 
-					/* Watch out: using 'int' for ISBN is not a good idea, because if
-					   the ISBN starts with 0, that digit will be lost.
-					*/
+			// With this implementation we can set faster the Rating.
+		std::unordered_map< int, size_t > bookMAP;
+		// Map the book id with it index in the vector.
 
-					const int ISBN_num = std::atoi(ISBN.c_str());
-
-					Book book;
-					book.setISBN(ISBN_num);
-					book.setTitle(name);
-
-					bookMAP[ISBN_num] = LoadData::books.size();
-
-					LoadData::books.push_back(book);
-					
-				}
-
-				file.close();
-
-				file.open("ratings.txt");
-
-				std::getline(file, line); // Skip the first line.
-
-				while (std::getline(file, line))
-				{
-					const size_t commaPos = line.find(",");
-
-					const std::string customerID = line.substr(0, commaPos);
-					const std::string ratingNum = line.substr(commaPos + 1, commaPos + 2);
-					const std::string ISBN = line.substr(commaPos + 4, line.size() - 1);
-
-					const int ISBN_num = std::atoi(ISBN.c_str());
-					const int customer = std::atoi(customerID.c_str());
-					const int bookRate = std::atoi(ratingNum.c_str());
-
-					const size_t bookIdx = bookMAP[ISBN_num];
-
-					LoadData::books[bookIdx].setRating(customer, bookRate);
-					//Vector to Tree from here
-				}
-
-
-				file.close();
-
-				file.open("customers.txt");
-
-				std::getline(file, line); // Skip the first line.
-
-				while (std::getline(file, line))
-				{
-					const size_t commaPos = line.find(","); // Find where is the ",".
-					const std::string ID = line.substr(0, commaPos);
-					const std::string name = line.substr(commaPos + 1, line.size() - 1);
-
-					Customer customer;
-					customer.setId(std::atoi(ID.c_str()));
-					customer.setName(name);
-					LoadData::customers.push_back(customer);
-				}
-			}
-			//Transfer Data from Murad's Code into scope that's easy to manage;
-			vector<Customer> customers = LoadData::customers;
-			vector< Book > books = LoadData::books;
-			//Loaded Books Along with Rating into Tree ordered.
-			for (auto &bookList : books)
-			{
-				bookTree.insert(bookList);
-			}
-			
-	
-			LoadData::debug() ; // Print the data loaded.
-			
-			// Give the Welcome message, then ask the user to log in.
-			while (true)
-			{
-				std::cout << Messages::welcome << std::endl;
-				std::string username, password;
-
-				RequestData("Username:", username);
-				RequestData("Password:", password);
-
-				if (Users::Verify(username, password)) // If the user is a valid one, go ahead! 
-				{
-					break;
-				}
-				else // If not, let it try again:
-				{
-					std::cout << "Invalid username or password!" << std::endl;
-				}
-			}	
-		while (keepOpen)
+		while (std::getline(file, line))
 		{
-		printf(Messages::Options, Users::getUsername(Users::Current).c_str());
-		
-			int option = static_cast< int >(UIOption::Invalid);
-			int ISBN, custID, myRating;
-			char yesNo;
-			Book Temp;
-			RequestData("Your option is:", option);
-		
-			switch (static_cast< UIOption >(option))
-			 {
-				case UIOption::LogOut:
-					keepOpen = false;
-					break;
-				case UIOption::FindBook:
-					printf("Enter ISBN of Book you are Looking For. \n");
-					cin >> ISBN;
-					Temp = bookTree.find(ISBN);
-					if (Temp.getISBN() == 0)
-						break;
-					else
-					{
-						cout << " Would you like to rate this book? (y/n) " << endl;
-						cin >> yesNo;
-						switch (yesNo) 
-						{
-							case 'y':
-								cout << "::WARNING:: if you already have a Rating, you will add another! " << endl;
-								cout << " Enter your Customer ID to rate this Book " << endl;
-								cin >> custID;
-								cout << endl << "Please Enter the rating you wish to give between 1-5: ";
-								cin >> myRating;
-								customers[custID].rateBook(bookTree, ISBN, myRating);
-								break;
-							case 'n':
-								break;
-							default:
-								cout << "Sorry I didn't get that. " << endl;
-								break;
-						}
-					}
-					break;
-				case UIOption::RecommendBooks:
-					printf("TODO Recommend Books\n");
-					break;
-				case UIOption::SeeRatings:
-					for (auto &bookRatings : books)
-					{
-						printf("Title: %70s | ", bookRatings.getTitle().c_str());
-						cout << endl;
-						bookRatings.mapPrint(bookRatings.getRatingMap());
-					}
-					break;
-				case UIOption::RateBook:
-					printf("TODO Rate Book\n");
-					break;							
-				default:
-					std::cout << "Invalid Option, try again" << std::endl;
-					break;
-			}		
-		}	
-		return 0;
+			const std::string ISBN = line.substr(0, 9);
+			const std::string name = line.substr(10, line.size() - 1);
+
+			/* Watch out: using 'int' for ISBN is not a good idea, because if
+			   the ISBN starts with 0, that digit will be lost.
+			*/
+
+			const int ISBN_num = std::atoi(ISBN.c_str());
+
+			Book book;
+			book.setISBN(ISBN_num);
+			book.setTitle(name);
+
+			bookMAP[ISBN_num] = LoadData::books.size();
+
+			LoadData::books.push_back(book);
+
 		}
 
+		file.close();
+
+		file.open("ratings.txt");
+
+		std::getline(file, line); // Skip the first line.
+
+		while (std::getline(file, line))
+		{
+			const size_t commaPos = line.find(",");
+
+			const std::string customerID = line.substr(0, commaPos);
+			const std::string ratingNum = line.substr(commaPos + 1, commaPos + 2);
+			const std::string ISBN = line.substr(commaPos + 4, line.size() - 1);
+
+			const int ISBN_num = std::atoi(ISBN.c_str());
+			const int customer = std::atoi(customerID.c_str());
+			const int bookRate = std::atoi(ratingNum.c_str());
+
+			const size_t bookIdx = bookMAP[ISBN_num];
+
+			LoadData::books[bookIdx].setRating(customer, bookRate);
+			//Vector to Tree from here
+		}
+
+
+		file.close();
+
+		file.open("customers.txt");
+
+		std::getline(file, line); // Skip the first line.
+
+		while (std::getline(file, line))
+		{
+			const size_t commaPos = line.find(","); // Find where is the ",".
+			const std::string ID = line.substr(0, commaPos);
+			const std::string name = line.substr(commaPos + 1, line.size() - 1);
+
+			Customer customer;
+			customer.setId(std::atoi(ID.c_str()));
+			customer.setName(name);
+			LoadData::customers.push_back(customer);
+		}
+	}
+	//Transfer Data from Murad's Code into scope that's easy to manage;
+	vector<Customer> customers = LoadData::customers;
+	vector< Book > books = LoadData::books;
+	//Loaded Books Along with Rating into Tree ordered.
+	for (auto &bookList : books)
+	{
+		bookTree.insert(bookList);
+	}
+	//Loads each customer with Vector of books Rated to make recommendations easier.
+	for (auto &customerBookList : customers)
+	{
+		customerBookList.booksRated(books);
+	}
+
+	LoadData::debug(); // Print the data loaded.
+
+	// Give the Welcome message, then ask the user to log in.
+	while (true)
+	{
+		std::cout << Messages::welcome << std::endl;
+		std::string username, password;
+
+		RequestData("Username:", username);
+		RequestData("Password:", password);
+
+		if (Users::Verify(username, password)) // If the user is a valid one, go ahead! 
+		{
+			break;
+		}
+		else // If not, let it try again:
+		{
+			std::cout << "Invalid username or password!" << std::endl;
+		}
+	}
+	while (keepOpen)
+	{
+		printf(Messages::Options, Users::getUsername(Users::Current).c_str());
+
+		int option = static_cast<int>(UIOption::Invalid);
+		int ISBN, custID, myRating;
+		char yesNo;
+		Book Temp;
+		RequestData("Your option is:", option);
+
+		switch (static_cast<UIOption>(option))
+		{
+		case UIOption::LogOut:
+			cout << endl << "See you Next Time! " << endl;
+			keepOpen = false;
+			break;
+		case UIOption::FindBook:
+			printf("Enter ISBN of Book you are Looking For. \n");
+			cin >> ISBN;
+			Temp = bookTree.find(ISBN);
+			if (Temp.getISBN() == 0)
+				break;
+			else
+			{
+				cout << " Would you like to rate this book? (y/n) " << endl;
+				cin >> yesNo;
+				switch (yesNo)
+				{
+				case 'y':
+					cout << "::WARNING:: if you already have a Rating, you will add another! " << endl;
+					cout << " Enter your Customer ID to rate this Book " << endl;
+					cin >> custID;
+					if (custID < 10 && custID > -1)
+					{
+						cout << endl << "Please Enter the rating you wish to give between 1-5: ";
+						cin >> myRating;
+						customers[custID].rateBook(bookTree, ISBN, myRating);
+					}
+					else 
+						cout << "That ID is not in our System Reverting to Main Menu. " << endl;
+					break;
+				case 'n':
+					break;
+				default:
+					cout << "Sorry I didn't get that. " << endl;
+					break;
+				}
+			}
+			break;
+		case UIOption::RecommendBooks:
+			cout << " Enter your ID to get the Most current Recommendations: " ;
+			cin >> custID;
+			if (custID < 10 && custID > -1)
+			{
+				vector<string> recommendBooks = RecommendBooks(customers, custID);
+				for (vector<string>::iterator itr = recommendBooks.begin(); itr != recommendBooks.end(); ++itr)
+					cout << *itr << endl;
+			}
+			else
+			{
+				cout << "That ID is not currently Registered at this Library. " << endl << endl;
+			}
+			break;
+		case UIOption::SeeRatings:
+			for (auto &bookRatings : books)
+			{
+				printf("Title: %70s | ", bookRatings.getTitle().c_str());
+				cout << endl;
+				bookRatings.mapPrint(bookRatings.getRatingMap());
+			}
+			break;
+		case UIOption::RateBook:
+			cout << "Enter your Customer ID to rate/rate Again. " << endl;
+			cin >> custID;
+			if (custID < 10 && custID > -1)
+			{
+				printf("Enter ISBN of Book you are Looking For. \n");
+				cin >> ISBN;
+				Temp = bookTree.find(ISBN);
+				if (Temp.getISBN() == 0)
+					break;
+				else
+				{
+					cout << endl << "Please Enter the rating you wish to give between 1-5: ";
+					cin >> myRating;
+					customers[custID].rateBook(bookTree, ISBN, myRating);
+				}
+			}
+			else
+			{
+				cout << "This ID in not in our System. Try again. " << endl;
+			}
+			break;
+		default:
+			std::cout << "Invalid Option, try again" << std::endl;
+			break;
+		}
+	}
+	system("pause");
+	return 0;
+}
+
+vector<string> RecommendBooks(vector<Customer>& customers, int& custID)
+{
+	vector<string> inCommon, notCommon, holder;
+	vector<string> myBooks, otherBooks;
+	int customerMostCommon;
+	for (int i = 0; i < 10; i++)
+	{
+		if (customers[i].getId() == custID)
+		{
+			//
+		}
+		else
+		{
+			myBooks = customers[custID].getTitles();
+			otherBooks = customers[i].getTitles();
+			sort(myBooks.begin(), myBooks.end());
+			sort(otherBooks.begin(), otherBooks.end());
+			set_intersection(otherBooks.begin(), otherBooks.end(),
+				myBooks.begin(), myBooks.end(), back_inserter(holder));
+			if (holder.size() > inCommon.size())
+			{
+				inCommon = holder;
+				customerMostCommon = i;
+			}
+		}
+	}
+	/**
+	* We now have the list from another customer with the most books inCommon.
+	* It doesn't matter the Rating for this algorithm. We only care about book Types we like to read.
+	* Now we will search the customer with the highest count of like books and recommend the books
+	* They have that We don't Have in our List.
+	*/
+	otherBooks = customers[customerMostCommon].getTitles();
+	sort(myBooks.begin(), myBooks.end());
+	sort(otherBooks.begin(), otherBooks.end());
+	set_difference(otherBooks.begin(), otherBooks.end(),
+		myBooks.begin(), myBooks.end(),
+		back_inserter(notCommon));
+	//This gives duplicates of the differences from each Vector
+	//Next we will sort/erase duplicates.
+	//sort(notCommon.begin(), notCommon.end());
+	notCommon.erase(unique(notCommon.begin(), notCommon.end()), notCommon.end());
+	return notCommon;
+}
