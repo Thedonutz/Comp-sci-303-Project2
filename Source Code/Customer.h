@@ -1,9 +1,7 @@
 #pragma once
 #include "Book.h"
 #include "Binary_Search_Tree.h"
-#include "Rating.h"
 #include <string>
-#include <list>
 #include <iostream>
 using namespace std;
 
@@ -13,12 +11,14 @@ public:
 
 	void setName(string);
 	void setId(int);
-
 	string getName();
 	int getId();
+
+	//Important Getters.
 	vector<Book> getBooks() { return bookList; }
 	vector<string> getTitles();
-
+	
+	//Main Functions
 	void rateBook(Binary_Search_Tree<Book>& BookTree, int IBSN, int theRating);
 	void booksRated(vector<Book> theBookList);
 	void convertList(vector<Book>& bookTitle);
@@ -30,9 +30,6 @@ protected:
 
 private:
 
-	
 	string name;
 	int id;
-
-
 };

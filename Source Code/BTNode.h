@@ -1,5 +1,4 @@
-#ifndef BTNODE_H_
-#define BTNODE_H_
+#pragma once
 #include <sstream>
 
 /** A node for a Binary Tree. */
@@ -20,19 +19,4 @@ struct BTNode
 	// Destructor (to avoid warning message)
 	virtual ~BTNode() {}
 
-	// to_string
-	//virtual std::string to_string() const {
-	//	std::ostringstream os;
-	//	os << data.getTitle();
-	//	return os.str();
-	//}
 }; // End BTNode
-
-// Overloading the ostream insertion operator
-//template<typename Item_Type>
-//std::ostream& operator<<(std::ostream& out,
-//	const BTNode<Item_Type>& node) {
-//		return out << node.to_string();
-//}
-
-#endif

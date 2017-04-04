@@ -1,7 +1,6 @@
 #include "Book.h"
 #include <iostream>
 
-
 void Book::setISBN(int theISBN)
 {
 	ISBN = theISBN;

@@ -1,6 +1,4 @@
-#ifndef BINARY_SEARCH_TREE_H
-#define BINARY_SEARCH_TREE_H
-
+#pragma once
 #include "Binary_Tree.h"
 #include "BTNode.h"
 #include "Book.h"
@@ -16,14 +14,6 @@ public:
 	// Public Member Functions
 	virtual bool insert(Book& item);
 
-	const Item_Type* min() const;
-
-	const Item_Type* min(BTNode<Item_Type>* local_root) const;
-
-	const Item_Type* max() const;
-
-	const Item_Type* max(BTNode<Item_Type>* local_root) const;
-
 	Item_Type find(int& target);
 private:
 
@@ -35,40 +25,6 @@ private:
 		int& target);
 
 }; // End binary search tree
-
-template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::min() const {
-	return min(this->root);
-		
-}
-
-template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::min(BTNode<Item_Type>* local_root) const{
-	if (local_root == NULL)
-		return NULL;
-
-		if (local_root->left == NULL)
-			return &(local_root->data);
-		 return min(local_root->left);
-}
-
-template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::max() const {
-	return max(this->root);
-
-}
-
-template<typename Item_Type>
-const Item_Type* Binary_Search_Tree<Item_Type>::max(BTNode<Item_Type>* local_root) const{
-	if (local_root == NULL)
-		return NULL;
-
-		if (local_root->right == NULL)
-			return &(local_root->data);
-		return max(local_root->right);
-}
-
-
 
 template<typename Item_Type>
 Item_Type Binary_Search_Tree<Item_Type>::find(int& item)
@@ -112,5 +68,3 @@ bool Binary_Search_Tree<Item_Type>::insert(BTNode<Book>*& local_root, Book& item
 			return false;
 	}
 }
-
-#endif

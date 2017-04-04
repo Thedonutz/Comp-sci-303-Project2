@@ -68,7 +68,6 @@
     <ClInclude Include="Binary_Tree.h" />
     <ClInclude Include="BTNode.h" />
     <ClInclude Include="Customer.h" />
-    <ClInclude Include="Rating.h" />
     <ClInclude Include="Book.h" />
   </ItemGroup>
   <ItemGroup>
