@@ -18,7 +18,7 @@ namespace Messages
 		const char *Options = STRINGIFY(
 			%s what would you like to do ? (Press the number)\n
 			 1 - Logout\n
-			 2 - Find Book in Library\n
+			 2 - Find Book by ISBN\n
 			 3 - Recommend Books\n
 			 4 - See Ratings\n
 			 5 - Rate Book\n
@@ -28,7 +28,7 @@ namespace Messages
 
 enum class UIOption
 {
-	LogIn, LogOut, FindBook, RecommendBooks, SeeRatings, RateBook, None, Invalid,
+	LogIn, LogOut, FindBookISBN, RecommendBooks, SeeRatings, RateBook, None, Invalid, 
 		MIN_OPTION = 1, MAX_OPTIONS = 5,
 };
 
@@ -101,7 +101,8 @@ namespace LoadData
 
 int main()
 {
-	Binary_Search_Tree<Book> bookTree; //<-This drives everything...
+	Binary_Search_Tree<Book> bookTreeISBN;
+	Binary_Search_Tree<Book> bookTreeTitle;
 
 	// Load the data 
 	// Create a scope too.
@@ -168,7 +169,8 @@ int main()
 	//Loaded Books Along with Rating into Tree ordered.
 	for (auto &bookList : books)
 	{
-		bookTree.insert(bookList);
+		bookTreeISBN.insertISBN(bookList);
+		bookTreeTitle.insertTitle(bookList);
 	}
 	//Loads each customer with Vector of books Rated to make recommendations easier.
 	for (auto &customerBookList : customers)
@@ -199,9 +201,10 @@ int main()
 	{
 		printf(Messages::Options, Users::getUsername(Users::Current).c_str());
 
-		int option = static_cast<int>(UIOption::Invalid);
+		int option = 0;
 		int ISBN, custID, myRating;
 		char yesNo;
+		string title;
 		Book Temp;
 		RequestData("Your option is:", option);
 
@@ -211,14 +214,22 @@ int main()
 			cout << endl << "See you Next Time! " << endl;
 			keepOpen = false;
 			break;
-		case UIOption::FindBook:
+		case UIOption::FindBookISBN:
 			printf("Enter ISBN of Book you are Looking For. \n");
 			cin >> ISBN;
-			Temp = bookTree.find(ISBN);
-			if (Temp.getISBN() == 0)
+			Temp = bookTreeISBN.find(ISBN);
+			if (ISBN < 0 || ISBN >= 999999999)
+			{
+				cout << "Number To Big/Small!!! " << endl;
 				break;
+			}
+			else if (Temp.getTitle() == "") {
+				cout << "No Book close enough to Given Number " << endl;
+				break;
+			}
 			else
 			{
+				cout << " Closest ISBN to value Given is Book: " << Temp.getTitle() << endl;
 				cout << " Would you like to rate this book? (y/n) " << endl;
 				cin >> yesNo;
 				switch (yesNo)
@@ -231,7 +242,7 @@ int main()
 					{
 						cout << endl << "Please Enter the rating you wish to give between 1-5: ";
 						cin >> myRating;
-						customers[custID].rateBook(bookTree, ISBN, myRating);
+						customers[custID].rateBook(bookTreeISBN, ISBN, myRating);
 					}
 					else 
 						cout << "That ID is not in our System Reverting to Main Menu. " << endl;
@@ -275,14 +286,15 @@ int main()
 			{
 				printf("Enter ISBN of Book you are Looking For. \n");
 				cin >> ISBN;
-				Temp = bookTree.find(ISBN);
+				Temp = bookTreeISBN.find(ISBN);
 				if (Temp.getISBN() == 0)
 					break;
 				else
 				{
+					cout << endl << "Book Closest to desired ISBN is: " << Temp.getTitle();
 					cout << endl << "Please Enter the rating you wish to give between 1-5: ";
 					cin >> myRating;
-					customers[custID].rateBook(bookTree, ISBN, myRating);
+					customers[custID].rateBook(bookTreeISBN, ISBN, myRating);
 				}
 			}
 			else
