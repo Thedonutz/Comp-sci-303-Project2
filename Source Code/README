@@ -1,29 +1,7 @@
 #To open/Work on project simply clone the repo and click on LibaryTree.vcxproj and it will load all files in the project.
 
- Work TO DO:
-    John:
-      -Implement Customer Class/.cpp
-      -Implement all .cpp's For all objects that need it. and any other functions you think they might need.
-      -Help Murad with any questions on what structures the test data should be loaded in.
-      
-    Murad:
-      -Your job is using the template of classes/structs. Is to
-        Create all the necessary Variables for these Objects.
-       -Load all of the Test Data into correct structures/variables.
-       -Create the UI Screen with switching statements for a customer to:
-          -Log In
-          -Find Book in Library
-          -See Ratings
-          -Rate Book
-          -Recommend Books
-          -Logout
-      
-   Me(Jeff):
-        Doing Hard Algorithms
-        -I will be writing the recommend books algorithm and any other algorithm john gets overwhelmed with.
-           -I will be here to help if any questions
-           
- NOTE: Murad should be working only in the Source.cpp
-          John you should be working in all the .h's with their respective .cpps
-        I am creating a second source .cpp that I will work in so I don't overwrite someone's code.
-        If you have questions ASK, AND ASK EARLY!
+ #####REMINDER#####
+ 
+ To RUN the CODE.
+ Clone the REPO into a local Directory.
+ Click on the .vcxproj File and it will compile and add everything from local directory to project so it can run!
